@@ -1,5 +1,7 @@
 # Demo
 https://andreaspaita.github.io/
+# Intro
+Create the dynamique form with angular, and drag and drop blog input
 # FormGit
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
