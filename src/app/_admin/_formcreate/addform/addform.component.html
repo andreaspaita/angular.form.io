@@ -1,0 +1,263 @@
+<div class="row" style="    margin-left: 13%;">
+
+
+    <div class="col-md-6" style="border: solid 1px black" dnd-sortable-container [sortableData]="FormAdd">
+
+        <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+            <div class="col-md-12">
+                <div class="class-form titleform">
+                    <label>titre Du formulaire</label>
+                    <input type="text" name="title" class="form-control" [ngModel]="FormTitleRender.title"/>
+                </div>
+                <label>Description</label>
+                <textarea class="form-control" name="description" [ngModel]="FormTitleRender.description"></textarea>
+                <label>Pagination</label>
+                <input type="checkbox" name="pages" [ngModel]="FormTitleRender.pages">
+                <div *ngIf="f.value.pages ==true">
+                    <label> nombre d'element par page</label>
+                    <input type="number" name="nombrespages" class="form-control" [ngModel]="FormTitleRender.nombrepages">
+                </div>
+
+
+            </div>
+
+
+            <br/>
+
+            <div *ngFor="let value of FormAdd;  let i = index ">
+
+
+                <div *ngIf="value != null" class="encadre-form col-md-12"  dnd-sortable [sortableIndex]="i">
+                    <div class="class-form heder-form">
+                        <span class="glyphicon glyphicon-remove " (click)="deleteForm(i,f)"></span>
+
+                        <span>Fields {{value.idjs  }} - {{value.type}} </span>
+                        <span *ngIf="value.hidden == false;else open_inut"><span (click)="hideSwhod(i)"
+                                                                                 class="glyphicon glyphicon-minus"></span>   </span>
+                        <ng-template #open_inut>
+                            <span (click)="hideSwhod(i)" class="glyphicon glyphicon-plus"></span>
+                        </ng-template>
+
+                    </div>
+                    <ul class="nav nav-pills">
+                        <li class="active">
+                            <a href="#{{value.idjs}}_p" data-toggle="tab">Parametre</a>
+                        </li>
+                        <li *ngIf="ShowTabs() == true"><a href="#{{value.idjs}}_c" data-toggle="tab">Condittion</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content clearfix "  id="{{'input_'+i}}" [hidden]="value.hidden">
+                        <div class="tab-pane active" id="{{value.idjs}}_p">
+                            <div >
+                                <input name="{{'input_'+value.idjs}}" [value]="i" hidden ngModel/>
+                                <div class="form-group">
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <br/>
+
+                                            <div *ngIf="value.type == 'html'">
+                                                <label>Votre code HTML </label>
+
+                                                <textarea class="form-control" name="input_{{value.idjs}}_h"
+                                                          [ngModel]="value.value"></textarea>
+                                            </div>
+
+
+                                            <div *ngIf="value.type != 'html' ">
+                                                <label>label de votre : type {{value.type}}</label>
+                                                <input class="form-control" type="text" name="{{value.labelname}}"
+                                                       [ngModel]="value.labele"/>
+                                                <label>Description</label>
+                                                <textarea class="form-control" name="input_{{value.idjs}}_d"
+                                                          value="{{value.description}}"   [ngModel]="value.description"></textarea>
+
+                                            </div>
+
+                                            <div *ngIf="value.type == 'text' || value.type == 'mail' ">
+
+                                                <label>placeholder</label>
+
+                                                <input class="form-control" type="text" name="{{value.placeholdername}}"
+                                                       [ngModel]="value.placeholder"/>
+
+                                            </div>
+                                            <div *ngIf="value.type != 'html' ">
+                                            <label>Obligatoire</label>
+
+                                            <select name="input_{{value.idjs}}_o" [ngModel]="conertBoolean(value.obligatoire)">
+                                                <option [ngValue]="1">oui</option>
+                                                <option [ngValue]="0">non</option>
+                                            </select>
+
+                                            <div *ngIf="f.value['input_'+value.idjs+'_o'] == '1'">
+                                                <div class="form-control" style="background: #ff744e;height: 25%;">
+                                                    <label>votre message d'erreur</label>
+                                                    <input class="form-control" type="text"
+                                                           value="{{value.error}}"      name="input_{{value.idjs}}_e" [ngModel]="value.error"/>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <br/>
+
+                                            <div *ngIf="value.type == 'file'">
+
+                                                <label>File multiple</label>
+                                                <input type="checkbox" name="input_{{value.idjs}}_m" ngModel>
+
+                                            </div>
+
+                                            <br/>
+                                        </div>
+
+
+                                        <div *ngIf="value.addsub == true">
+                                            <div *ngIf="value.type == 'select'  ">
+
+                                                <span class="glyphicon glyphicon-plus-sign supp"
+                                                      (click)="AddSub('option',i)"></span>
+                                                <div *ngFor="let valuesub of value.subcategorie;  let k = index ">
+                                                    <div *ngIf="valuesub != null">
+
+                                                        <div *ngIf="f.value['input_'+value.idjs+'_1_s'] ==1 && f.value['input_'+value.idjs+'_1_v'] != null ">
+                                                            <input type="hidden" name="input_{{value.idjs}}_v" [ngModel]="f.value['input_'+value.idjs+'_1_v']"/>
+                                                        </div>
+                                                        <div class="col-md-10 sub">
+                                                            <span class=" glyphicon glyphicon-minus-sign supp"
+                                                                  (click)="deleteFormSubform(i,k)"></span>
+
+                                                            <div class="col-md-4">
+                                                                <label>Value</label>
+                                                                <input class="form-control" type="text"
+                                                                       name="{{valuesub.valuname}}" [ngModel]="valuesub.value"/>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <label>Choices</label>
+                                                                <input class="form-control" type="text"
+                                                                       name="{{valuesub.choicesname}}" [ngModel]="valuesub.choices"/>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div *ngIf="k == 0">
+                                                                    <label>select</label>
+                                                                    <select name="input_{{value.idjs}}_{{valuesub.idjs}}_s" [ngModel]="conertBoolean(valuesub.selected)">
+                                                                        <option [value]="1">oui</option>
+                                                                        <option [value]="0">non</option>
+                                                                    </select>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div *ngIf="value.type == 'radio' || value.type == 'checkbox'  ">
+                                                <span class="glyphicon glyphicon-plus-sign supp"
+                                                      (click)="AddSub('radio',i)"></span>
+                                                <div *ngFor="let valuesub of value.subcategorie;  let k = index ">
+                                                    <div *ngIf="f.value['input_'+value.idjs+'_1_s'] ==1 && f.value['input_'+value.idjs+'_1_c'] != null ">
+                                                        <input type="hidden" name="input_{{value.idjs}}_v" [ngModel]="f.value['input_'+value.idjs+'_1_c']"/>
+                                                    </div>
+                                                    <div *ngIf="valuesub != null">
+                                                        <div class="col-md-10 sub">
+                                                            <span class=" glyphicon glyphicon-minus-sign supp"
+                                                                  (click)="deleteFormSubform(i,k)"></span>
+                                                            <div class="col-md-6">
+                                                                <label>Choices</label>
+                                                                <input class="form-control" type="text"
+                                                                       name="{{valuesub.choicesname}}" [ngModel]="valuesub.choices"/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div *ngIf="k == 0">
+                                                                    <label>select</label>
+                                                                    <select name="input_{{value.idjs}}_{{valuesub.idjs}}_s" [ngModel]="conertBoolean(valuesub.selected)">
+                                                                        <option [value]="1">oui</option>
+                                                                        <option [value]="0">non</option>
+                                                                    </select>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <!--obligatoire -->
+
+
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
+                        </div> <!-- fin collapse -->
+                        <div *ngIf="ShowTabs() == true" class="tab-pane" id="{{value.idjs}}_c" [hidden]="ShowTabs()" >
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div><!-- fin di bg form -->
+            <div class="col-md-12">
+
+                <h3>Parametre</h3>
+                <label>Nom du bouton submit</label>
+                <input type="text" name="button" class="form-control" [ngModel]="FormTitleRender.submit"/>
+                <label>Actif</label>
+                <select name="actif" class="form-control"  [ngModel]="conertBoolean(FormTitleRender.actif)">
+                    <option [ngValue]="1" >oui</option>
+                    <option [ngValue]="0">non</option>
+                </select>
+
+                <label>Reponce unique</label>
+                <select name="unique" class="form-control"  [ngModel]="conertBoolean(FormTitleRender.unique)">
+                    <option [ngValue]="1" >oui</option>
+                    <option [ngValue]="0">non</option>
+                </select>
+
+            </div>
+            <div #target></div>
+            <br/> <button type="submit" class="btn btn-success pull-right">valider</button>
+
+        </form>
+
+    </div>
+
+
+    <div class="col-md-2 menuLaterale" style="border: solid 1px black">
+        <h3>Formulaire</h3>
+        <button type="button" class="btn btn-light" (click)="AddInput('text')" (click)="ngAfterViewInit()">Texte
+        </button>
+        <br/><br/>
+        <button type="button" class="btn btn-light" (click)="AddInput('number')" (click)="ngAfterViewInit()">Nombre
+        </button>
+        <br/><br/>
+        <button type="button" class="btn btn-light" (click)="AddInput('date')" (click)="ngAfterViewInit()">date
+        </button>
+        <br/><br/>
+        <button type="button" class="btn btn-light" (click)="AddInput('radio')" (click)="ngAfterViewInit()">Radio</button>
+        <br/><br/>
+        <button type="button" class="btn btn-light" (click)="AddInput('select')" (click)="ngAfterViewInit()">Option</button>
+        <br/><br/>
+        <button type="button" class="btn btn-light" (click)="AddInput('checkbox')" (click)="ngAfterViewInit()">Checkbox
+        </button>
+        <br/><br/>
+        <button type="button" class="btn btn-light" (click)="AddInput('textarea')" (click)="ngAfterViewInit()">Texte long
+        </button>
+        <br/><br/>
+        <button type="button" class="btn btn-light" (click)="AddInput('mail')" (click)="ngAfterViewInit()">Mail</button>
+        <br/><br/>
+        <button type="button" class="btn btn-light" (click)="AddInput('html')" (click)="ngAfterViewInit()">Html</button>
+        <br/><br/>
+        <button type="button" class="btn btn-light" (click)="AddInput('file')" (click)="ngAfterViewInit()">File</button>
+        <br/><br/>
+    </div>
+</div>
+<div id="footer"></div>

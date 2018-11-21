@@ -1,0 +1,21 @@
+
+
+<div class="col-md-2"></div>
+<div class="col-md-8">
+
+  <h2>{{title}}</h2><br/>
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+    <th>Réponce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let resp of responce; let i = index">
+      <th scope="row">{{i + 1}}</th>
+      <th>{{resp}}</th>
+    </tr>
+    </tbody>
+  </table>
+</div>

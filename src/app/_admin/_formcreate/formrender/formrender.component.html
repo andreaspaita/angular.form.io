@@ -1,0 +1,105 @@
+
+
+<div class="col-md-4"></div>
+<div class="col-md-4">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+    <h2>{{FormData.title}}</h2>
+
+
+    <input type="hidden" value="{{FormData.id}}"/>
+
+        <div *ngFor="let form of FormData.formrender | paginate: { itemsPerPage: FormData.nombrepages, currentPage: p }; let i = index ">
+      <div *ngIf="form.type == 'text' || form.type == 'mail' || form.type == 'number' || form.type == 'date'">
+        <label>{{form.labele}}</label><br/>
+        <span>{{form.description}}</span><br/>
+        <input class="form-control" type="{{form.type}}" name="{{form.name}}" required="{{form.obligatoire}}" placeholder="{{form.placeholder}}" ngModel/>
+        <div *ngIf="inputRequired[form.name] == false" >
+          <div style="background: #ff6c64">
+              <span>{{form.error}}</span>
+            </div>
+        </div>
+      </div>
+      <div *ngIf="form.type == 'textarea'">
+        <label>{{form.labele}}</label><br/>
+        <span>{{form.description}}</span><br/>
+        <textarea class="form-control" name="{{form.name}}" ngModel></textarea>
+        <div *ngIf="inputRequired[form.name] == false" >
+          <div style="background: #ff6c64">
+            <span>{{form.error}}</span>
+          </div>
+        </div>
+      </div>
+      <div   *ngIf="form.type == 'select'">
+          <label>{{form.labele}}</label><br/>
+        <span>{{form.description}}</span><br/>
+        <select  class="form-control" id="{{form.name}}" name="{{form.name}}" [ngModel]="form.value">
+
+
+           <option *ngFor="let formSub of form.subcategorie" [value]="formSub.value" >{{formSub.value}}</option>
+
+
+          </select>
+        <div *ngIf="inputRequired[form.name] == false" >
+          <div style="background: #ff6c64">
+            <span>{{form.error}}</span>
+          </div>
+        </div>
+        </div>
+      <div *ngIf="form.type == 'radio'">
+        <label>{{form.labele}}</label><br/>
+        <span>{{form.description}}</span><br/>
+        <div class="radio">
+          <br/><label *ngFor="let formSub2 of form.subcategorie" class="checkbox-inline">
+          <br/><input type="radio" [value]="formSub2.choices" name="{{form.name}}" [ngModel]="form.value"/>{{formSub2.choices}}</label>
+          <div *ngIf="inputRequired[form.name] == false" >
+            <div style="background: #ff6c64">
+              <span>{{form.error}}</span>
+            </div>
+          </div>
+        </div>
+        </div>
+
+      <div *ngIf="form.type == 'checkbox'">
+        <label>{{form.labele}}</label><br/>
+        <span>{{form.description}}</span><br/>
+        <div class="checkbox" *ngFor="let formSub2 of form.subcategorie">
+          <br/><label  class="checkbox-inline">
+          <br/><input type="checkbox" [value]="formSub2.choices" name="{{form.name}}" [ngModel]="form.value"/>{{formSub2.choices}}</label>
+          <div *ngIf="inputRequired[form.name] == false" >
+            <div style="background: #ff6c64">
+              <span>{{form.error}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="form.type == 'html'">
+      <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(Htmlreturnserialize(form.value))"></div>
+      </div>
+      <div *ngIf="form.type == 'file'">
+        <label>{{form.labele}}</label><br/>
+        <span>{{form.description}}</span><br/>
+        <input type="file" name="{{form.name}}"  required="{{form.obligatoire}}"  (change)="onFileChange($event,form.name,f)"  ngModel />
+        <div *ngIf="inputRequired[form.name] == false" >
+          <div style="background: #ff6c64">
+            <span>{{form.error}}</span>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div *ngIf="FormData.pages == true">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+<br/>
+    <button type="submit" class="btn btn-success pull-right" >{{FormData.submit}}</button>
+
+  </form>
+
+
+</div>
+<div class="col-md-4"></div>
+
+

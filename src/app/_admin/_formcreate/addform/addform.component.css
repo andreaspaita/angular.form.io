@@ -1,0 +1,21 @@
+.class-form {
+
+    width: 100%;
+    height: 29px;
+}
+.encadre-form{
+    border: 1px solid;
+    margin: 4px;
+    padding-bottom: 4px;
+    background: #bfc4c58a;
+}
+span.supp {
+    width: 100%;
+}
+.titleform{
+    margin-bottom: 37px;
+}
+.heder-form{
+    background: #94d3e2;
+}
+
