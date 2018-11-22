@@ -1,5 +1,5 @@
 # Demo
-https://andreaspaita.github.io/
+https://andreaspaita.github.io/angular.form.io
 # Intro
 Create the dynamique form with angular, and drag and drop block input
 # FormGit
