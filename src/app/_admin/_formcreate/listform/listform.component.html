@@ -19,8 +19,8 @@
     <tr *ngFor="let form of FormData ; let i = index ">
       <th scope="row">{{i + 1}}</th>
       <td>{{form.title}}</td>
-        <td><ui-switch [checked]="form.actif" ></ui-switch></td>
-      <td><ui-switch [checked]="form.uniquer" ></ui-switch></td>
+        <td><ui-switch [checked]="conertBoolean(form.actif)" ></ui-switch></td>
+      <td><ui-switch [checked]="conertBoolean(form.uniquer)" ></ui-switch></td>
       <td ><a *ngIf="form.actif == true" routerLink="/remplire" (click)="addFormStorag(FormData[i])">Remplire</a></td>
         <td ><a  routerLink="/put" (click)="putFormStorage(i)">Modifier</a></td>
         <td ><a  routerLink="/reponce" (click)="responceFormStorag(i)">reponce</a></td>

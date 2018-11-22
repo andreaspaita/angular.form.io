@@ -75,4 +75,14 @@ export class ListformComponent implements OnInit {
 
 
     }
+    conertBoolean(value)
+    {
+        if(value == 1)
+        {
+            return true ;
+        }else{
+            return false ;
+        }
+
+    }
 }

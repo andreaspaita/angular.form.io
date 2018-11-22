@@ -1,6 +1,56 @@
 <div class="row" style="    margin-left: 13%;">
 
+    <div class="col-md-2 menuLaterale" style="border: solid 1px black"   >
+        <h1>{{f.value['title']}}</h1>
+        <div>{{f.value['description']}}</div>
+        <div *ngFor="let form of FormAdd;  let i = index " dnd-sortable-container [sortableData]="FormAdd">
+            <div class="sotable" *ngIf="form !== null"  dnd-sortable [sortableIndex]="i">
+                <div *ngIf="form.type == 'html'">
 
+                    <div>{{f.value['input_'+form.idjs+'_h']}}</div>
+                </div>
+                <div *ngIf="form.type != 'html' ">
+                    <label> Label : {{f.value[form.labelname]}}</label>
+                    <div>Description : {{f.value['input_'+form.idjs+'_d']}}</div>
+
+                </div>
+                <div *ngIf="form.type == 'text' || form.type == 'mail' || form.type == 'number' || form.type == 'date'">
+                    <input class="form-control"  type="{{form.type}}" placeholder="{{f.value[form.placeholdername]}}"/>
+                </div>
+                <div *ngIf="form.type == 'textarea'">
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div *ngIf="form.type == 'file'">
+                    <input class="form-control"  type="{{form.type}}" placeholder="{{f.value[form.placeholdername]}}"/>
+                </div>
+                <div *ngIf="form.type == 'radio'">
+                    <div class="radio">
+                        <br/><label *ngFor="let formSub2 of form.subcategorie" class="checkbox-inline">
+
+                        <br/><span *ngIf="f.value[formSub2.choicesname] !== null  || f.value[formSub2.choicesname] !=='undefined'"><input   type="radio"  />{{f.value[formSub2.choicesname]}}</span>
+
+                    </label>
+                    </div>
+                </div>
+                <div *ngIf="form.type == 'checkbox'">
+                    <div class="checkbox" *ngFor="let formSub2 of form.subcategorie">
+                        <br/><label  class="checkbox-inline">
+                        <br/><input type="checkbox" /><span *ngIf="f.value[formSub2.choicesname] !== null || f.value[formSub2.choicesname] !=='undefined'">{{f.value[formSub2.choicesname]}}</span></label>
+                    </div>
+                </div>
+
+                <div   *ngIf="form.type == 'select'">
+                    <select  class="form-control" >
+                        <option *ngFor="let formSub of form.subcategorie" ><span *ngIf="f.value[formSub.choicesname] !== null  || f.value[formSub.choicesname] !=='undefined' ">{{f.value[formSub.choicesname]}}</span></option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+
+        <br/><button  class="btn btn-success pull-right">{{f.value['button']}}</button>
+    </div>
     <div class="col-md-6" style="border: solid 1px black" dnd-sortable-container [sortableData]="FormAdd">
 
         <form #f="ngForm" (ngSubmit)="onSubmit(f)">
@@ -44,7 +94,7 @@
                         <li class="active">
                             <a href="#{{value.idjs}}_p" data-toggle="tab">Parametre</a>
                         </li>
-                        <li *ngIf="ShowTabs() == true"><a href="#{{value.idjs}}_c" data-toggle="tab">Condittion</a>
+                        <li *ngIf="ShowTabs() == true"><a href="#{{value.idjs}}_c" data-toggle="tab">Condition</a>
                         </li>
                     </ul>
                     <div class="tab-content clearfix "  id="{{'input_'+i}}" [hidden]="value.hidden">
@@ -197,14 +247,19 @@
                                 <br/>
                             </div>
                         </div> <!-- fin collapse -->
+
                         <div *ngIf="ShowTabs() == true" class="tab-pane" id="{{value.idjs}}_c" [hidden]="ShowTabs()" >
+
+
+
+
 
 
 
                         </div>
                     </div>
                 </div>
-            </div><!-- fin di bg form -->
+            </div><!-- fin du ngform -->
             <div class="col-md-12">
 
                 <h3>Parametre</h3>
@@ -261,3 +316,4 @@
     </div>
 </div>
 <div id="footer"></div>
+

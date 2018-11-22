@@ -22,6 +22,7 @@ export class AddformComponent implements OnInit {
     FormTitle: Array<Formtitle> = [];
     FormTitleRender ;
     listOne: Array<string> = [];
+    percent = 0;
      constructor(
             private router: Router,
             private spinner: NgxSpinnerService,
@@ -70,10 +71,12 @@ export class AddformComponent implements OnInit {
           case 'select':
               this.FormAdd.push(new Form(null,input,'input_'+i,i,null,'input_'+i+'_v'  ,null,'input_'+i+'_l',null,
                   'input_'+i+'_c','select',null,null,true,null,null,0,0,null,false,false,true));
+
               break;
           case 'radio':
               this.FormAdd.push(new Form(null,input,'input_'+i,i,null,'input_'+i+'_v'  ,null,'input_'+i+'_l',null,
                   'input_'+i+'_c','radio',null,'input_'+i+'_p',true,null,null,null,0,null,false,false,true));
+
               break;
           case 'file':
               this.FormAdd.push(new Form(null,input,'file_'+i,i,null,'file_'+i+'_v'  ,null,'input_'+i+'_l',null,
@@ -96,7 +99,7 @@ export class AddformComponent implements OnInit {
               this.FormAdd.push(new Form(null,input,'input_'+i,i,null,'input_'+i+'_v'  ,null,'input_'+i+'_l',null,
                   null,option,null,'input_'+i+'_p',false,null,null,0,0,null,false,false));
               break;
-
+              console.log(this.FormAdd);
       }
 
   }
@@ -262,6 +265,8 @@ export class AddformComponent implements OnInit {
             this.router.navigate(['list']);
             this.spinner.hide();
         }else{
+            localStorage.setItem('form',JSON.stringify( this.FormTitle));
+            this.router.navigate(['list']);
             this.spinner.hide();
         }
 
@@ -310,105 +315,6 @@ export class AddformComponent implements OnInit {
         }
     }
 
-
-
-    checkValueSebCont(key)
-    {
-
-
-        if( this.FormAdd[key].subcategorie !== null )
-        {
-
-            if(this.FormAdd[key].subcategorie.length >= 1)
-            {
-                if(this.FormAdd[key].subcategorie[0] !== null)
-                {
-                    return true;
-                }else{
-                    return false;
-                }
-
-            }else
-                {
-                return false;
-
-            }
-        }else{
-            return false;
-        }
-    }
-
-
-    ValudeType(value)
-    {
-let key = value -1;
-        if(value != "undefined" && this.FormAdd[key] !=null )
-        {
-
-            if(this.FormAdd.length >= 1)
-            {
-                if(this.FormAdd[key].type == 'radio' || this.FormAdd[key].type == 'select'||  this.FormAdd[key].type  =='checkbox')
-                {
-                   return true;
-
-
-                }else{
-                    return false;
-                }
-            }
-
-        }
-
-
-    }
-
-    valuCheckInput(value)
-    {
-        let key = value - 1;
-        if(value != "undefined" && this.FormAdd[key] !=null )
-        {
-
-            if(this.FormAdd.length >= 1)
-            {
-
-                if(this.FormAdd[key].type == 'radio' || this.FormAdd[key].type == 'select'||  this.FormAdd[key].type  =='checkbox' )
-                {
-
-
-                    return true;
-
-
-
-                }else{
-                    return false;
-                }
-            }
-
-        }else{
-            return false;
-        }
-
-    }
-
-
-    onChange($event)
-    {
-
-        if($event !== "undefined" && this.FormAdd[$event] !=null )
-        {
-
-            if(this.FormAdd.length >= 1)
-            {
-                if(this.FormAdd[$event].type == 'radio' || this.FormAdd[$event].type == 'select'||  this.FormAdd[$event].type  =='checkbox')
-                {
-
-                    this.FormAdd[$event].obligatoireVisible = false;
-                }
-            }
-
-        }
-
-    }
 
 
 
